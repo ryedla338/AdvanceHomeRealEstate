@@ -1,0 +1,58 @@
+
+
+{% extends 'base.html' %}
+ {% load static %}
+{% block content %}
+
+    <style>
+    *{
+          background-image: url("{% static 'images/bg.png' %}");
+          background-size: 100% 100%;
+            background-attachment: fixed;
+            margin: 0;
+        color: white ;
+    }
+    hr.custom-line {
+    color: #ffffff !important;
+        background-color: white;
+    height: 5px !important; /* Increase the height of the line */
+    width:80% !important; /* Set the width of the line */
+   border: 3px solid #ffffff;
+        border-radius: 10px;
+        opacity: 1;
+        margin-left: 55px;
+
+}
+    </style>
+{% for owner in owners %}
+<body class="bg">
+<div class="container1">
+  <div class="left-div">
+      <p>Meet {{ owner.name}}, <br>Omaha's top real estate broker.</p>
+      <div class="btn1">
+      <button>CONTACT ME <i class="fas fa-envelope"></i> </button>
+          </div>
+
+       <hr class="custom-line">
+      <p style="font-weight: bold;font-size: 29px;">Contact Us: </p>
+      <div style="padding-left: 30%;padding-right: 30%">
+       <p  style="text-align: center;width: 250px">{{ owner.office_address}}</p>
+          </div>
+        <br>
+      <p>Phone: {{ owner.phone}}</p>
+      <br>
+      <br>
+      <br>
+      <br>
+      <p style="color: black; font-weight: bold; font-size: 28px;text-align: left">"Where Every Property Tells a Story<br>-Let Us Help You Write Yours."</p>
+  </div>
+  <div class="right-div">
+      <h2 >{{ owner.name}}</h2>
+   <img src="{{ owner.photo.url }}" >
+  </div>
+</div>
+{% endfor %}
+    </body>
+
+
+{% endblock %}

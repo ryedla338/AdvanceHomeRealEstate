@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}
+ {% load static %}
+{% block content %}
+    <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <style>
+    .card{
+        max-width: 350px;
+
+    }
+    span{
+        font-weight: bold;
+    }
+
+    </style>
+<body style="background: #485C6B">
+
+
+<div class="card-deck">
+      {% for property_listing in property_listings %}
+  <div class="card" style="border-radius: 0 0 50px 50px; !important;">
+
+
+      <div style="position: relative; text-align: center;">
+  <img class="card-img-top" src="{{ property_listing.photo1.url }}" alt="{{ property_listing.name }} Photo">
+    <div style="position: absolute; top: 90%; left: 15%; transform: translate(-50%, -50%); color: snow; font-size: 15px;font-weight: bold">
+       View Listing
+    </div>
+           <div style="position: absolute; top: 100%; left: 90%; transform: translate(-50%, -50%); color: snow; font-size: 15px;font-weight: bold">
+   <img src="{% static "icons/heart.png" %}" width=100%" alt="Your Image">
+    </div>
+</div>
+
+
+
+    <div class="card-body" >
+      <h5 class="card-title">{{ property_listing.name }}</h5>
+      <p  style="font-weight: bold" class="card-text">$ {{ property_listing.price }}</p>
+      <p style="text-decoration: underline"> <i style="background-color: white" class="fas fa-map-marker-alt"></i>{{ property_listing.street }}, {{ property_listing.city }}, {{ property_listing.state }}, {{ property_listing.zipcode }}</p>
+    </div>
+    <div class="card-footer" style="background-color: transparent !important;" >
+         <div style="display: flex; justify-content: space-evenly; margin-right: -30px; margin-left: -30px">
+
+  {% if property_listing.price > 349000 and property_listing.price < 352000 %}
+    <div><img src="{% static 'icons/bed.png' %}" width="40"><span>3</span><p style="font-size: 11px">Rooms</p></div>
+    <div><img src="{% static 'icons/bath.png' %}" width="40"><span>2</span><p style="font-size: 11px">&nbsp;&nbsp;Baths</p></div>
+    <div><img src="{% static 'icons/garage.png' %}" width="40"><span>2</span><p style="font-size: 11px">Garages</p></div>
+    <div><img src="{% static 'icons/sqft.png' %}" width="40"><span>Sqft</span><p style="font-size: 11px">&nbsp;&nbsp;&nbsp;2500</p></div>
+{% else %}
+    <div><img src="{% static 'icons/bed.png' %}" width="40"><span>4</span><p style="font-size: 11px">Rooms</p></div>
+    <div><img src="{% static 'icons/bath.png' %}" width="40"><span>4</span><p style="font-size: 11px">&nbsp;&nbsp;Baths</p></div>
+    <div><img src="{% static 'icons/garage.png' %}" width="40"><span>4</span><p style="font-size: 11px">Garages</p></div>
+    <div><img src="{% static 'icons/sqft.png' %}" width="40"><span>Sqft</span><p style="font-size: 11px">&nbsp;&nbsp;&nbsp;4000</p></div>
+             {% endif %}
+</div>
+
+    </div>
+  </div>
+ {% endfor %}
+</div>
+
+    {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <div style="text-align: center; padding-top: 55px;">
+    <a href="{% url 'admin:RealEstate_propertylisting_add' %}" style="text-decoration: none;">
+        <button style="background-color: #FF851B; color: white; width: 230px; height: 50px; border: none; border-radius: 22px; font-weight: bold; font-size: 20px;">
+            Add Listing
+        </button>
+    </a>
+</div>
+
+{% endif %}
+{% endif %}
+</body>
+
+{% endblock %}

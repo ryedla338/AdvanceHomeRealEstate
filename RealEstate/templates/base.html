@@ -1,66 +1,82 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}Advance Home Real Estate{% endblock %}</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-
-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-integrity="sha384-
-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<div class="container-fluid">
-<a class="navbar-brand" href="{% url 'index' %}">Advance Home Real Estate</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-data-bs-target="#navbarSupportedContent"
-aria-controls="navbarSupportedContent" aria-expanded="false" aria-
-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item">
-<a class="nav-link" href="{% url 'index' %}">Home</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#">About</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#">Listings</a>
-</li>
-    <li class="nav-item">
-<a class="nav-link" href="#">Explore Omaha</a>
-</li>
-</ul>
-</div>
-    <!--Display Login/Logout right-justified in navbar -->
-        <ul class="nav navbar-nav ml-auto">
-            {% if user.is_authenticated %}
-                <li><a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span>Logout</a>
-                </li>
 
-            {% else %}
-                <li><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>Login</a>
-                </li>
-{#                <li><a class="nav-link" href="{% url 'register' %}"><span class="glyphicon glyphicon-log-in"></span>Sign Up</a>#}
-{#                </li>#}
-            {% endif %}
-        </ul>
-</div>
-</nav>
-<div class="container">
-<br/>
-{% block content %}
-{% endblock %}
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-
-alpha1/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-
-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-crossorigin="anonymous"></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}AdVance Home Real Estate{% endblock %}</title>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css" media="screen,projection">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+
+</head>
+
+<body >
+    <nav class="navbar navbar-expand-lg navbar_BackgroundColor fixed-top">
+        <div class="container-fluid">
+
+           <a class="navbar-brand" href="{% url 'index' %}">
+  <img src="../../static/images/logo.png" width="80">
+  <span class="brand-text">
+   &nbsp; AdVance<br> &nbsp;&nbsp;&nbsp; Home <br> Real Estate
+  </span>
+</a>
+  <button  class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span ><i  style="background-color: #485C6B" class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                </ul>
+                <ul class="nav navbar-nav ml-auto">
+            <!-- Home Link -->
+<li class="nav-item">
+  <a class="nav-link {% if request.path == '/' %}active text-warning{% endif %}" href="/">Home</a>
+</li>
+
+<!-- About Link -->
+<li class="nav-item">
+  <a class="nav-link {% if request.path == '/about/' %}active text-warning{% endif %}" href="/about">About</a>
+</li>
+
+<!-- Listings Link -->
+<li class="nav-item">
+  <a class="nav-link {% if request.path == '/listings/' %}active text-warning{% endif %}" href="/listings">Listings</a>
+</li>
+
+<!-- Explore Omaha Link -->
+<li class="nav-item">
+  <a class="nav-link {% if request.path == '/explore/' %}active text-warning{% endif %}" href="/explore">Explore Omaha</a>
+</li>
+
+                    {% if user.is_authenticated %}
+                   <li><a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span>Logout</a>
+                    </li>
+
+                    {% else %}
+                    <li><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span>Login</a>
+                    </li>
+                   
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <br/>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
