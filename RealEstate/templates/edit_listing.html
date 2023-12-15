@@ -1,6 +1,7 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
+
 <style>
   body{
   background-color: #485C6B;
@@ -14,12 +15,9 @@
   }
 </style>
 <body>
-  <h2>Add a New Listing</h2>
-
-<br>
-
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    <h2>Edit Listing - {{ listing.name }}</h2>
+    <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
 
     <p>
       <label for="{{ form.name.id_for_label }}">Title:</label>
@@ -30,7 +28,7 @@
       {{ form.owner }}
       {{ form.owner.errors }}
         &emsp;&emsp;
-       </p>
+    </p>
         <p>
       <label for="{{ form.street.id_for_label }}">Street:</label>
       {{ form.street }}
@@ -85,7 +83,8 @@
       <label for="{{ form.photo1.id_for_label }}">Photo1:</label>
       {{ form.photo1 }}
       {{ form.photo1.errors }}
-
+        </p>
+        <p>
       <label for="{{ form.photo2.id_for_label }}">Photo2:</label>
       {{ form.photo2 }}
       {{ form.photo2.errors }}
@@ -95,7 +94,8 @@
       <label for="{{ form.photo3.id_for_label }}">Photo3:</label>
       {{ form.photo3 }}
       {{ form.photo3.errors }}
-
+    </p>
+<p>
       <label for="{{ form.photo4.id_for_label }}">Photo4:</label>
       {{ form.photo4 }}
       {{ form.photo4.errors }}
@@ -104,11 +104,7 @@
 
 
 
-    <p>
-      <label for="{{ form.date.id_for_label }}">Date:</label>
-      {{ form.date }}
-      {{ form.date.errors }}
-    </p>
+
 
     <p>
       <label for="{{ form.status.id_for_label }}">Status:</label>
@@ -126,6 +122,7 @@
 
 
     <button type="submit" style="background-color: white;border-radius: 16px; padding: 2px 20px;">Save</button>
-  </form>
-  </body>
+    </form>
+    <a href="{% url 'listing_detail' pk=listing.pk %}" style="color: white; text-decoration: none;margin-left: -30px;">Cancel</a>
+    </body>
 {% endblock %}

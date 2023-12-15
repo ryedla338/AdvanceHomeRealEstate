@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+select{
+    width: 90%;
+}
+    .card {
+        max-width: 350px;
+        border-radius: 0 0 50px 50px !important;
+    }
+
+    span {
+        font-weight: bold;
+    }
+    select{
+
+        margin: 16px 16px 16px 16px  !important;
+        font-size: 20px !important;
+        height: 55px !important;
+        border-radius: 20px !important;
+
+    }
+
+
+     .cont {
+      position: relative;
+
+    }
+
+    /* Overlay div */
+    .overlay {
+      position: absolute;
+
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      color: #fff;
+      text-align: center;
+      line-height: 100px;
+         pointer-events: none;
+      z-index: 2; /* Place the overlay on top */
+    }
+    #id_property_type {
+        width: 95%;
+    }
+    #id_property_price_range {
+        width: 95%;
+    }
+    #id_neighborhood {
+        width: 95%;
+    }
+
+.fa{
+    font-size: larger;
+}
+</style>
+<body style="background: #485C6B">
+
+<form method="post"  action="{% url 'search' %}" class="form-inline my-2 my-lg-0">
+  {% csrf_token %}
+  <div class="container text-center">
+    <div class="row justify-content-around" style="margin-top: -50px">
+      <div class="col-3 form-group">
+       <div class="cont" style="width: 90%">
+
+
+
+           {{ type_form.property_type }}
+
+
+
+       </div> <div class="overlay" style="top: 34%;right: 10% ">  <i style="background-color: white;color: black;" class="fa fa-chevron-down"></i></div>
+<div  style="padding-left: 10px">
+          <button  style="background-color: #FF851B; color: white; width: 205px; height: 50px; border: none; border-radius: 2px;font-weight: 500; font-size: 30px;">
+                Search Now
+            </button>
+</div>
+      </div>
+
+      <div class="col-3 form-group" style="padding-left: 40px">
+          <div class="cont">
+        {{ price_form.property_price_range }}
+            </div>
+          <div class="overlay" style="top: 34%;right: 19% ">  <i style="background-color: white;color: black;" class="fa fa-chevron-down"></i></div>
+
+          <button style="background-color: #FF851B; color: white; width: 205px; height: 50px; border: none; border-radius: 2px;font-weight: 500; font-size: 30px;">
+                Search Now
+            </button>
+      </div>
+
+      <div class="col-3 form-group">
+          <div class="cont">
+           {{ neighborhood_form.neighborhood }}
+              </div>
+           <div class="overlay" style="top: 34%;right: 2% ">  <i style="background-color: white;color: black;" class="fa fa-chevron-down"></i></div>
+
+<div  style="padding-left: 20px">
+          <button style="background-color: #FF851B; color: white; width: 205px; height: 50px; border: none; border-radius: 2px;font-weight: 500; font-size: 30px;">
+                Search Now
+            </button>
+    </div>
+      </div>
+    </div>
+  </div>
+
+
+</form>
+
+
+
+<br>
+<br>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+            {% for l in listing %}
+
+            <div style="padding-bottom: 20px;" class="col-md-4" >
+                <div class="card">
+                    <div style="position: relative; text-align: center;">
+                        <img class="card-img-top" style="height: 200px; width: 100%;" src="{{ l.photo1.url }}" alt="{{ l.name }} Photo">
+                        <div style="position: absolute; top: 90%; left: 15%; transform: translate(-50%, -50%); color: snow; font-size: 15px;font-weight: bold">
+                            <a style="color: snow" href="{% url 'listing_detail' pk=l.pk %}">
+                                View Listing
+                            </a>
+                        </div>
+                        <div style="position: absolute; top: 100%; left: 90%; transform: translate(-50%, -50%); color: snow; font-size: 15px;font-weight: bold">
+                            <img src="{% static 'icons/heart.png' %}" width="100%" alt="Your Image">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ l.name }}</h5>
+                        <p style="font-weight: bold" class="card-text">$ {{ l.price }}</p>
+                        <p style="text-decoration: underline"><i style="background-color: white" class="fas fa-map-marker-alt"></i>{{ l.street }}, {{ l.city }}, {{ l.state }}, {{ l.zipcode }}</p>
+                    </div>
+                    <div class="card-footer" style="background-color: transparent !important;">
+                        <div style="display: flex; justify-content: space-evenly; margin-right: -30px; margin-left: -30px">
+                            {% if l.price > 349000 and l.price < 452000 %}
+                            <div><img src="{% static 'icons/bed.png' %}" width="40"><span>3</span><p style="font-size: 11px">Rooms</p></div>
+                            <div><img src="{% static 'icons/bath.png' %}" width="40"><span>2</span><p style="font-size: 11px">&nbsp;&nbsp;Baths</p></div>
+                            <div><img src="{% static 'icons/garage.png' %}" width="40"><span>2</span><p style="font-size: 11px">Garages</p></div>
+                            <div><img src="{% static 'icons/sqft.png' %}" width="40"><span>Sqft</span><p style="font-size: 11px">&nbsp;&nbsp;&nbsp;2500</p></div>
+                            {% else %}
+                            <div><img src="{% static 'icons/bed.png' %}" width="40"><span>4</span><p style="font-size: 11px">Rooms</p></div>
+                            <div><img src="{% static 'icons/bath.png' %}" width="40"><span>4</span><p style="font-size: 11px">&nbsp;&nbsp;Baths</p></div>
+                            <div><img src="{% static 'icons/garage.png' %}" width="40"><span>4</span><p style="font-size: 11px">Garages</p></div>
+                            <div><img src="{% static 'icons/sqft.png' %}" width="40"><span>Sqft</span><p style="font-size: 11px">&nbsp;&nbsp;&nbsp;4000</p></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    {% if user.is_superuser %}
+    <div style="text-align: center; padding-top: 55px;padding-left: 34%;width: 20%">
+        <a href="{% url 'add_listing' %}" style="text-decoration: none;">
+            <button style="background-color: #FF851B; color: white; width: 230px; height: 50px; border: none; border-radius: 22px; font-weight: bold; font-size: 20px;">
+                Add Listing
+            </button>
+        </a>
+
+    </div>
+     <br> <br>
+    {% endif %}
+    {% endif %}
+
+
+
+    {% if success_popup %}
+    <script>
+        alert("Email sent successfully!");
+    </script>
+{% endif %}
+</body>
+{% endblock %}

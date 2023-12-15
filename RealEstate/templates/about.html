@@ -1,58 +1,204 @@
-
-
 {% extends 'base.html' %}
- {% load static %}
+{% load static %}
+
 {% block content %}
+<style>
+  body {
+    background-image: url("{% static 'images/bg.png' %}");
+    background-size: cover;
+    margin: 0;
+    color: white;
+    font-family: Arial, sans-serif; /* Added a generic font family */
+  }
 
-    <style>
-    *{
-          background-image: url("{% static 'images/bg.png' %}");
-          background-size: 100% 100%;
-            background-attachment: fixed;
-            margin: 0;
-        color: white ;
-    }
-    hr.custom-line {
+  .container1 {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+
+  .left-div {
+    flex: 1;
+    max-width: 500px; /* Adjusted max-width for better responsiveness */
+    margin-right: 20px;
+  }
+
+  .btn1 {
+    margin-top: 20px;
+  }
+
+  .right-div {
+    flex: 1;
+    max-width: 500px; /* Adjusted max-width for better responsiveness */
+  }
+
+  hr.custom-line {
     color: #ffffff !important;
-        background-color: white;
-    height: 5px !important; /* Increase the height of the line */
-    width:80% !important; /* Set the width of the line */
-   border: 3px solid #ffffff;
-        border-radius: 10px;
-        opacity: 1;
-        margin-left: 55px;
+    background-color: white;
+    height: 5px !important;
+    width: 80% !important;
+    border: 3px solid #ffffff;
+    border-radius: 10px;
+    opacity: 1;
+    margin-left: 55px;
+  }
 
-}
-    </style>
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Adjusted width for better responsiveness */
+    max-width: 500px;
+    padding: 20px;
+    color: black;
+  }
+
+  .modal-content {
+    text-align: center;
+     width: 350px; /* Set the width to 350px */
+    margin: 0 auto;
+    border: none !important;
+
+  }
+   input{
+   border: 1px solid black !important;
+   }
+
+  .form-control {
+    width: 80%;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .contact-agent {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .contact-agent:hover {
+    background-color: #45a049;
+  }
+</style>
+
 {% for owner in owners %}
 <body class="bg">
-<div class="container1">
-  <div class="left-div">
+  <div class="container1">
+    <div class="left-div">
       <p>Meet {{ owner.name}}, <br>Omaha's top real estate broker.</p>
-      <div class="btn1">
-      <button>CONTACT ME <i class="fas fa-envelope"></i> </button>
-          </div>
-
-       <hr class="custom-line">
-      <p style="font-weight: bold;font-size: 29px;">Contact Us: </p>
-      <div style="padding-left: 30%;padding-right: 30%">
-       <p  style="text-align: center;width: 250px">{{ owner.office_address}}</p>
-          </div>
-        <br>
+      <div class="btn1" style="margin-left: -30px;">
+        <button id="contact_me" class="contact" style="color: white">CONTACT ME <i class="fas fa-envelope"></i> </button>
+      </div>
+      <hr class="custom-line">
+      <p style="font-weight: bold; font-size: 29px;">Contact Us: </p>
+      <div style="padding-left: 110px">
+        <p style="width: 250px;">{{ owner.office_address}}</p>
+      </div>
       <p>Phone: {{ owner.phone}}</p>
-      <br>
-      <br>
-      <br>
-      <br>
-      <p style="color: black; font-weight: bold; font-size: 28px;text-align: left">"Where Every Property Tells a Story<br>-Let Us Help You Write Yours."</p>
+        <br>
+        <br>
+      <p style="color: black; font-weight: bold; font-size: 28px;">"Where Every Property Tells a Story<br>-Let Us Help You Write Yours."</p>
+    </div>
+    <div class="right-div">
+      <h2>{{ owner.name}}</h2>
+      <img src="{{ owner.photo.url }}">
+    </div>
   </div>
-  <div class="right-div">
-      <h2 >{{ owner.name}}</h2>
-   <img src="{{ owner.photo.url }}" >
+{% endfor %}
+
+<div id="contactModal" class="modal" style="padding-top: 0 !important">
+  <div class="modal-content">
+    <span class="close" style="font-size: 30px;cursor: pointer"> &nbsp; &times;</span>
+    <form id="contactForm" method="POST" action="{% url 'send_email_no_pk' %}">
+      {% csrf_token %}
+      <h2 class="contact-title">Contact Agent</h2>
+      <div class="container text-center" style="padding: 5px 45px 5px 45px;">
+<div class="row">
+      <label for="name" class="name">Name</label>
+      <input style=" border: 1px solid black !important;" type="text" id="name" name="name" required>
+    </div>
+<br>
+    <div class="row">
+      <label for="phone" class="phone">Phone</label>
+      <input type="number" id="phone" name="phone" required>
+    </div>
+<br>
+        <div class="row">
+      <label for="email" class="email">Email</label>
+      <input type="email" id="email" name="email" required>
+        </div>
+<br>
+            <div class="row">
+      <label for="address" class="address">Address</label>
+      <input type="text" id="address" name="address">
+            </div>
+<br>
+                <div class="row">
+      <label for="message" class="message">Message</label>
+      <textarea style="border: 1px solid black;" id="message" name="message" required></textarea>
+                </div>
+    <br>
+         <div>
+          <button type="submit" style="background-color: #FF851B; color: white;border: none;padding: 9px 32px;border-radius: 15px;"  class="contact-agent">Contact Agent</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
-{% endfor %}
-    </body>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const contactForm = document.getElementById('contactForm');
+      const successMessage = "Message sent successfully.";
+      const errorMessage = "Error sending message.";
+
+      contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+
+        const formData = new FormData(contactForm);
+        fetch(contactForm.action, {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(successMessage);
+            location.reload();
+          } else {
+            alert(errorMessage);
+
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert(successMessage);
+          location.reload();
+        });
+      });
+
+      const contactMeButton = document.getElementById('contact_me');
+      const contactModal = document.getElementById('contactModal');
+      const closeButton = document.querySelector('.close');
+
+      contactMeButton.addEventListener('click', function () {
+        contactModal.style.display = 'block';
+      });
+
+      closeButton.addEventListener('click', function () {
+        contactModal.style.display = 'none';
+      });
+    });
+  </script>
 
 
 {% endblock %}

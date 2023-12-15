@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OmahaEvent, Owner, PropertyPriceRange, PropertyType, PropertyNeighborhood, PropertyListing
+from .models import OmahaEvent, Owner, PropertyPriceRange, PropertyType, PropertyNeighborhood, PropertyListing, Search
 
 
 class OmahaEventAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ admin.site.register(OmahaEvent, OmahaEventAdmin)
 admin.site.register(PropertyListing)
 admin.site.register(PropertyNeighborhood)
 admin.site.register(PropertyPriceRange)
+admin.site.register(Search)

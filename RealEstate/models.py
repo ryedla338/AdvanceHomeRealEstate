@@ -18,13 +18,11 @@ class PropertyType(models.Model):
 
     def __str__(self):
         return self.name
-
-
 class PropertyPriceRange(models.Model):
-    price_range_span = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.price_range_span
+        return self.name
 
 
 class PropertyNeighborhood(models.Model):
@@ -67,8 +65,45 @@ class PropertyListing(models.Model):
     photo4 = models.ImageField(upload_to='listing_images/', blank=True)
     owner = models.ForeignKey(Owner, on_delete=models.DO_NOTHING)
     property_type = models.ForeignKey(PropertyType, on_delete=models.DO_NOTHING)
-    price_range = models.ForeignKey(PropertyPriceRange, on_delete=models.DO_NOTHING)
+    property_price_range = models.ForeignKey(PropertyPriceRange, on_delete=models.DO_NOTHING)
     neighborhood = models.ForeignKey(PropertyNeighborhood, on_delete=models.DO_NOTHING)
+
+    def save(self, *args, **kwargs):
+
+        if self.featured:
+
+            PropertyListing.objects.exclude(pk=self.pk).update(featured=False)
+
+        super(PropertyListing, self).save(*args, **kwargs)
+
+    def toggle_featured(self):
+        if not self.featured:
+            self.featured = True
+            self.save()
 
     def __str__(self):
         return self.name
+
+
+
+
+class Search(models.Model):
+    neighborhood = models.ForeignKey(PropertyNeighborhood, on_delete=models.DO_NOTHING, null=True, blank=True)
+    property_type = models.ForeignKey(PropertyType, on_delete=models.DO_NOTHING, null=True, blank=True)
+    property_price_range = models.ForeignKey(PropertyPriceRange, on_delete=models.DO_NOTHING, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        search_str = f"Search ID: {self.id} - "
+        filters = []
+
+        if self.neighborhood:
+            filters.append(f"Neighborhood: {self.neighborhood.name}")
+
+        if self.property_type:
+            filters.append(f"Property Type: {self.property_type.name}")
+
+        if self.property_price_range:
+            filters.append(f"Price Range: {self.property_price_range.name}")
+
+        return search_str + ", ".join(filters)

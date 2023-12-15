@@ -6,7 +6,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
         <style>
-    /* Custom styles for positioning the controls at the bottom and changing icon color */
     .carousel-control-prev, .carousel-control-next {
         width: 5%;
         bottom: 5%;
@@ -20,6 +19,9 @@
     .carousel   img{
         height: 400px;
         width: 630px;
+
+    }
+    @media(max-width: 1090px){
 
     }
     .carousel-control-prev-icon {
@@ -62,11 +64,11 @@
                 <br><br>
                 <p>{{ property_listing.city }}, {{ property_listing.street }}, {{ property_listing.state }}, {{ property_listing.zipcode  }}</p>
                 <p>3 bds | 2 ba | 2500 sqft | Residence for sale</p>
-                <p>Visit {{ property_listing.name }}</p>
+               <a style="text-decoration: none" href="{% url 'listing_detail' pk=property_listing.pk %}"> <p>Visit {{ property_listing.name }}</p></a>
             </div>
 
 
-            <div class="col-sm" style="padding-right: 50px">
+            <div class="col-sm imagecard" style="padding-right: 50px">
                 <br><br>
                 <div class="row align-items-start">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
